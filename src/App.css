@@ -3,9 +3,11 @@
     padding: 0;
     margin: 0;
 }
- body {
+
+body {
     font-family: Arial, Helvetica, sans-serif;
- }
+}
+
 .container {
     width: 75%;
     margin: auto
@@ -23,50 +25,58 @@
     padding: 1rem;
 }
 
-.label-left {
+.label-left, .coin-container-left{
     display: flex;
     gap: 1rem;
     align-items: center;
 }
 
-.label-right {
+.label-right, .coin-container-right {
     display: flex;
     gap: 2rem;
-    justify-content:space-evenly;
+    width: 50%;
+    align-items: center;
+    justify-content: flex-start;
+}
+.label-right p {
+    width: 25%;
 }
 
-.coin-container, .label {
+.coin-container,
+.label {
     display: flex;
     gap: 1rem;
     margin: 1rem;
     justify-content: space-between;
 }
 
-.coin-container-left {
+ 
+ .coin-container-right p {
+    width: 25%;
+ }
+.coin-price {
     display: flex;
-    gap: 1rem;
-    align-items: center;
+    justify-content: flex-start;
 }
-.coin-container-right {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-    justify-content: space-around;
-}
-
 .coin-img {
     width: 1.8rem;
+}
+.coin-symbol {
+    color:  #8c8c8c;
+    font-size: 0.8rem;
 }
 
 .coin-img-name {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0.5rem
+    gap: 0.5rem;
 }
+
 .positive-change {
-    color:green
+    color: green
 }
+
 .negative-change {
-    color:red;
+    color: red;
 }

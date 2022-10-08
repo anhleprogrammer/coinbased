@@ -3,14 +3,15 @@ import "./App.css";
 import axios from "axios";
 import Coin from "./Coin";
 
-const url =
+const coinUrl =
   "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d";
+const exchangeUrl = "https://api.coingecko.com/api/v3/exchanges?per_page=100";
 function App() {
   const [coins, setCoin] = useState([]);
   const [searchVal, setSearch] = useState("");
   useEffect(() => {
     axios
-      .get(url)
+      .get(coinUrl)
       .then((res) => {
         setCoin(res.data);
         console.log(Array.isArray(res.data));
@@ -35,12 +36,11 @@ function App() {
       </div>
       <div className="label">
         <div className="label-left">
-          <p>#</p>
           <p>Coin</p>
         </div>
         <div className="label-right">
           <p>Price</p>
-          <p>24h volume change</p>
+          <p>Change(24h)</p>
           <p>24h volume</p>
           <p>Market Cap</p>
         </div>

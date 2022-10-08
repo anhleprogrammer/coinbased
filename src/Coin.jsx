@@ -7,16 +7,17 @@ function Coin(props) {
   return (
     <div className="coin-container">
       <div className="coin-container-left">
-        {" "}
-        <p>{index + 1}</p>
         <div className="coin-img-name">
           {" "}
           <img className="coin-img" src={coin.image} alt="" />
-          <p>{coin.name}</p>
+          <div className="coin-name">
+            <p>{coin.name}</p>
+            <p className="coin-symbol">{coin.symbol.toUpperCase()}</p>
+          </div>
         </div>
       </div>
       <div className="coin-container-right">
-        <p>${coin.current_price}</p>
+        <p className="coin-price">${coin.current_price}</p>
         <p
           className={
             coin.price_change_percentage_24h > 0
