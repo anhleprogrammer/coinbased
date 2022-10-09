@@ -1,3 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 * {
     box-sizing: border-box;
     padding: 0;
@@ -8,75 +11,5 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.container {
-    width: 75%;
-    margin: auto
-}
-
-.search-container {
-    margin: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.search-input {
-    width: 20%;
-    padding: 1rem;
-}
-
-.label-left, .coin-container-left{
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-}
-
-.label-right, .coin-container-right {
-    display: flex;
-    gap: 2rem;
-    width: 50%;
-    align-items: center;
-    justify-content: flex-start;
-}
-.label-right p {
-    width: 25%;
-}
-
-.coin-container,
-.label {
-    display: flex;
-    gap: 1rem;
-    margin: 1rem;
-    justify-content: space-between;
-}
-
  
- .coin-container-right p {
-    width: 25%;
- }
-.coin-price {
-    display: flex;
-    justify-content: flex-start;
-}
-.coin-img {
-    width: 1.8rem;
-}
-.coin-symbol {
-    color:  #8c8c8c;
-    font-size: 0.8rem;
-}
-
-.coin-img-name {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.positive-change {
-    color: green
-}
-
-.negative-change {
-    color: red;
-}
+ 
