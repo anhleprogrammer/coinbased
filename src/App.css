@@ -12,4 +12,43 @@ body {
 }
 
  
+.rainbow:hover {
+    animation: rainbow 10s ease  ;
+	animation-iteration-count: infinite;
+    color: transparent;
+    color: black
+}
+@keyframes rainbow{
+    100%,0%{
+        background-color: rgb(255,0,0);
+    }
+    16%{
+        background-color: rgb(255,255,0);
+    }
+    25%{
+        background-color: rgb(127,255,0);
+    }
+    33%{
+        background-color: rgb(0,255,0);
+    }
+  
+    50%{
+        background-color: rgb(0,255,255);
+    }
+    58%{
+        background-color: rgb(0,127,255);
+    }
+    66%{
+        background-color: rgb(0,0,255);
+    }
+    75%{
+        background-color: rgb(127,0,255);
+    }
+    83%{
+        background-color: rgb(255,0,255);
+    }
+    0%, 50%, 100% {
+        color: white
+    }
+}
  

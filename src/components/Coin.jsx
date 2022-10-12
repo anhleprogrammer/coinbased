@@ -10,9 +10,19 @@ function Coin(props) {
   const convertValue = (val) => {
     return val.toLocaleString(undefined, { minimumFractionDigits: 2 });
   };
-  console.log(coin);
+  const move$ = (str) => {
+    str = str + "";
+    if (str.includes("-")) str = str.slice(1);
+    return Number(str);
+  };
   return (
-    <div className="coin-container flex justify-between items-center border-solid border-b py-2">
+    <div
+      className={
+        coin.name !== "Dogecoin"
+          ? "coin-container hover:bg-slate-100 flex justify-between items-center border-solid border-b py-2"
+          : "coin-container rainbow hover:bg-red-100 flex justify-between items-center border-solid border-b py-2"
+      }
+    >
       <div className="left-values flex gap-4 items-center">
         {" "}
         <img className="w-8 h-8" src={coin.image} alt="" />
@@ -21,9 +31,17 @@ function Coin(props) {
           <p className="text-slate-500">{coin.symbol.toUpperCase()}</p>
         </div>
       </div>
-      <div className="right-values flex items-center justify-between w-4/5 child:w-1/5">
+      <div className="right-values flex items-center justify-center w-4/5 child:w-1/5">
         <p className="coin-price ">${convertValue(coin.current_price)}</p>
-        <p>${convertValue(coin.price_change_24h)}</p>
+        <p
+          className={
+            coin.price_change_24h > 0 ? "text-green-500" : "text-red-500"
+          }
+        >
+          {coin.price_change_24h < 0
+            ? "-$" + convertValue(move$(coin.price_change_24h))
+            : "$" + convertValue(coin.price_change_24h)}
+        </p>
         <p
           className={
             coin.price_change_percentage_24h > 0
@@ -34,9 +52,9 @@ function Coin(props) {
           {coin.price_change_percentage_24h.toFixed(2)}%
         </p>
         <p>${formatCash(coin.market_cap)}</p>
-        <p>
+        <p className="flex justify-center">
           {" "}
-          <button className="bg-indigo-500 hover:bg-indigo-700 text-white py-2 px-4 rounded">
+          <button className=" bg-indigo-500 hover:bg-indigo-700 text-white py-2 px-4 rounded">
             Trade
           </button>
         </p>
