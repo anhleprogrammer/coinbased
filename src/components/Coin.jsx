@@ -19,7 +19,7 @@ function Coin(props) {
     <div
       className={
         coin.name !== "Dogecoin"
-          ? "coin-container hover:bg-slate-100 flex justify-between items-center border-solid border-b py-2"
+          ? "dark coin-container hover:bg-slate-100 flex justify-between items-center border-solid border-b py-2"
           : "coin-container rainbow hover:bg-red-100 flex justify-between items-center border-solid border-b py-2"
       }
     >
@@ -28,7 +28,7 @@ function Coin(props) {
         <img className="w-8 h-8" src={coin.image} alt="" />
         <div className="coin-name">
           <p>{coin.name}</p>
-          <p className="text-slate-500">{coin.symbol.toUpperCase()}</p>
+          <p className="text-slate-500 ">{coin.symbol.toUpperCase()}</p>
         </div>
       </div>
       <div className="right-values flex items-center justify-center w-4/5 child:w-1/5">

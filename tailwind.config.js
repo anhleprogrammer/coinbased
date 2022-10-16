@@ -5,4 +5,6 @@ module.exports = {
     extend: {},
   },
   plugins: [require("tailwind-children")],
+  darkMode: "class",
+  lightMode: "class",
 };
