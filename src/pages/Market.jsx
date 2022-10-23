@@ -14,7 +14,6 @@ function Market() {
       .get(coinUrl)
       .then((res) => {
         setCoin(res.data);
-        console.log(Array.isArray(res.data));
       })
       .catch((error) => {
         console.error(error);

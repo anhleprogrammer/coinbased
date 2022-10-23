@@ -14,7 +14,6 @@ function Navbar(props) {
           <Link
             to="/"
             className="logo w-1/6 flex items-center gap-4 font-bold"
-            href="#pablo"
             onClick={() => setDark(true)}
           >
             <img className="logo-img w-1/5" src={dark ? wlogo : logo} alt="" />
@@ -24,9 +23,15 @@ function Navbar(props) {
             <Link onClick={() => setDark(false)} to="/market">
               Markets
             </Link>
-            <Link to="/nft">NFT</Link>
-            <Link to="/app">App</Link>
-            <Link to="/news">News</Link>
+            <Link to="/nft" onClick={() => setDark(false)}>
+              NFT
+            </Link>
+            <Link to="/app" onClick={() => setDark(false)}>
+              App
+            </Link>
+            <Link to="/news" onClick={() => setDark(false)}>
+              News
+            </Link>
           </ul>
           <div className="nav-right flex gap-4 items-center justify-center w-1/5">
             <button className="text-indigo-500 border-indigo-500 border-solid border-2 rounded-full py-2 w-1/2 dark:text-white">

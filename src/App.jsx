@@ -1,26 +1,37 @@
 import { React, useState } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import Home from "./pages/Home";
 import Market from "./pages/Market";
+import NFT from "./pages/NFT";
+
 function App() {
   const [dark, setDark] = useState(true);
+  const location = useLocation();
 
   return (
     <div className={dark}>
-      <Router>
+      {location.pathname === "/market" || location.pathname === "/" ? (
         <div className="bg-indigo-500 p-2 text-white justify-center flex dark:text-black">
           <p className="dark:text-black">
-            Get up to $200 for getting started →
+            Get up to $400 for getting started →
           </p>
         </div>
-        <Navbar dark={dark} setDark={setDark} />{" "}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/market" element={<Market />} />
-        </Routes>
-      </Router>
+      ) : (
+        ""
+      )}
+      <Navbar dark={dark} setDark={setDark} />{" "}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/market" element={<Market />} />
+        <Route path="/nft" element={<NFT />} />
+      </Routes>
     </div>
   );
 }
