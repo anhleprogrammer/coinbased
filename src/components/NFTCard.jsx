@@ -2,9 +2,8 @@ import React from "react";
 
 function NFTCard(props) {
   const nft = props.nft;
-  // console.log(nft);
   return (
-    <div className="w-1/4 h-1/2 relative pt-2">
+    <div className="w-1/4 h-1/2 relative">
       <img className="w-full h-full rounded-lg" src={nft.openSea.imageUrl} />
       <div className="absolute bottom-4 left-4 flex flex-col text-white">
         {" "}
