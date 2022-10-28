@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Coin from "../components/Coin";
+import CoinInfo from "../components/CoinInfo";
 
 const coinUrl =
   "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d";
@@ -32,6 +33,7 @@ function Market() {
           placeholder="Search"
         />
       </div>
+      <CoinInfo />
       <div className="flex justify-between text-slate-500 mb-2">
         <div className="left-label">
           <p>Name</p>
