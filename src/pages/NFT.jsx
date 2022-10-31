@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from "react";
-import { exportedMethods } from "../utils/main";
+import { exportedMethods, address } from "../utils/alchemy";
 import NFTCard from "../components/NFTCard";
 import chevronL from "../assets/chevron-l.png";
 import chevronR from "../assets/chevron-r.png";
@@ -9,31 +9,29 @@ function NFT() {
   const [slide, setSlide] = useState(0);
   useEffect(() => {
     const data = async () => {
-      try {
-        const apeData = await exportedMethods.ape();
-        const ratData = await exportedMethods.rat();
-        const doodleData = await exportedMethods.doodle();
-        const dogeData = await exportedMethods.doge();
-        const punkData = await exportedMethods.punk();
-        const walk = await exportedMethods.letsWalk();
-        const nyolinData = await exportedMethods.nyolin();
-        const cyberData = await exportedMethods.cyber();
-        const womanData = await exportedMethods.woman();
-        const birdData = await exportedMethods.bird();
-        const azukiData = await exportedMethods.azuki();
-        const sharkData = await exportedMethods.shark();
+      const ape = await exportedMethods.getNFTData(address.ape);
 
-        setCollection([
-          [apeData, dogeData, doodleData, ratData],
-          [punkData, walk, nyolinData, cyberData],
-          [womanData, birdData, sharkData, azukiData],
-        ]);
-      } catch (e) {
-        console.log(e);
-      }
+      const doge = await exportedMethods.getNFTData(address.doge);
+
+      const woman = await exportedMethods.getNFTData(address.woman);
+
+      const punk = await exportedMethods.getNFTData(address.punk);
+
+      const rat = await exportedMethods.getNFTData(address.rat);
+
+      const doodle = await exportedMethods.getNFTData(address.doodle);
+      const azuki = await exportedMethods.getNFTData(address.azuki);
+
+      const shark = await exportedMethods.getNFTData(address.shark);
+
+      setCollection([
+        [ape, doge, woman, doodle],
+        [punk, rat, shark, azuki],
+      ]);
     };
     data();
   }, []);
+  console.log(nftCollection);
 
   const filterCollection = () => {
     return nftCollection && nftCollection[slide] ? nftCollection[slide] : null;
@@ -73,7 +71,7 @@ function NFT() {
             className="w-12"
             src={chevronR}
             onClick={() => {
-              if (slide < 2) setSlide(slide + 1);
+              if (slide < 1) setSlide(slide + 1);
               else setSlide(0);
             }}
           />

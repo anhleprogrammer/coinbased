@@ -20,7 +20,7 @@ function App() {
       {location.pathname === "/market" || location.pathname === "/" ? (
         <div className="bg-indigo-500 p-2 text-white justify-center flex dark:text-black">
           <p className="dark:text-black">
-            Get up to $400 for getting started →
+            Get up to $200 for getting started →
           </p>
         </div>
       ) : (
