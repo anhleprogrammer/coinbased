@@ -1,4 +1,5 @@
-const axios = require("axios");
+// const axios = require("axios");
+import axios from "axios";
 const apiKey = "3CiAM9p2CyxR4ph9rymuSC9BhO2ywyBx";
 const apiURL = `https://eth-mainnet.g.alchemy.com/nft/v2/${apiKey}/getContractMetadata`;
 
@@ -35,4 +36,4 @@ const exportedMethods = {
     return `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=1`;
   },
 };
-module.exports = { exportedMethods, address };
+export { exportedMethods, address };
