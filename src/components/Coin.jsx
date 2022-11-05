@@ -1,7 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 function Coin(props) {
   const coin = props.coin;
+  const navigate = useNavigate();
   const formatCash = (n) => {
     if (n >= 1e6 && n < 1e9) return +(n / 1e6).toFixed(2) + "M";
     if (n >= 1e9 && n < 1e12) return +(n / 1e9).toFixed(2) + "B";
@@ -19,9 +21,10 @@ function Coin(props) {
     <div
       className={
         coin.name !== "Dogecoin"
-          ? "dark coin-container hover:bg-slate-100 flex justify-between items-center border-solid border-b py-2"
-          : "coin-container rainbow hover:bg-red-100 flex justify-between items-center border-solid border-b py-2"
+          ? "dark coin-container hover:bg-slate-100 flex justify-between items-center border-solid border-b py-2 cursor-pointer"
+          : "coin-container rainbow hover:bg-red-100 flex justify-between items-center border-solid border-b py-2 cursor-pointer"
       }
+      onClick={() => navigate(`${coin.id.toLowerCase()}`)}
     >
       <div className="left-values flex gap-4 items-center">
         {" "}

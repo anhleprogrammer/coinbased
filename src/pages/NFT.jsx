@@ -31,7 +31,7 @@ function NFT() {
     };
     data();
   }, []);
-  console.log(nftCollection);
+  // console.log(nftCollection);
 
   const filterCollection = () => {
     return nftCollection && nftCollection[slide] ? nftCollection[slide] : null;

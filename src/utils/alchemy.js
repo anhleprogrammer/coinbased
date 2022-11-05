@@ -29,7 +29,7 @@ const exportedMethods = {
     }
   },
 
-  async historicalChart(coinId, currency, days) {
+  historicalChart(coinId, currency, days) {
     return `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=${currency}&days=${days}`;
   },
   historicalChart2(coinId, currency, days) {

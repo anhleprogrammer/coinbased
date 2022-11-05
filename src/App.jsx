@@ -10,6 +10,7 @@ import {
 import Home from "./pages/Home";
 import Market from "./pages/Market";
 import NFT from "./pages/NFT";
+import CoinInfo from "./pages/CoinInfo";
 
 function App() {
   const [dark, setDark] = useState(true);
@@ -29,7 +30,10 @@ function App() {
       <Navbar dark={dark} setDark={setDark} />{" "}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/market" element={<Market />} />
+        <Route path="/market" element={<Market />}>
+          <Route path=":id" element={<CoinInfo />} />
+        </Route>
+
         <Route path="/nft" element={<NFT />} />
       </Routes>
     </div>
