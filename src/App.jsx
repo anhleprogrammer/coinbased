@@ -17,7 +17,7 @@ function App() {
   const location = useLocation();
 
   return (
-    <div className={`${dark} bg-blue-500 w-screen h-screen`}>
+    <div className={`${dark} w-screen`}>
       {location.pathname === "/market" || location.pathname === "/" ? (
         <div className="bg-indigo-500 p-2 text-white justify-center flex dark:text-black">
           <p className="dark:text-black">
