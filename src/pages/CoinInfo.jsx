@@ -18,7 +18,8 @@ function CoinInfo(props) {
       console.log(err);
     }
   }, []);
-  console.log(historicalData.prices); // an array with 169 subarrays, each subarray represent data point for 1 day
+  console.log(historicalData.prices); // an array with 169 subarrays,
+  //each subarray represent data point for 1 hour
 
   return <div>{id}</div>;
 }
