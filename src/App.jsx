@@ -33,7 +33,6 @@ function App() {
         <Route path="/market" element={<Market />}>
           <Route path=":id" element={<CoinInfo />} />
         </Route>
-
         <Route path="/nft" element={<NFT />} />
       </Routes>
     </div>

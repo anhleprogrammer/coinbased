@@ -3,24 +3,21 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     screens: {
-      xs: "360px",
-      //stuff
-      s: "640px",
-      // => @media (min-width: 640px) { ... }
+      "2xl": { max: "1535px" },
+      // => @media (max-width: 1535px) { ... }
 
-      m: "768px",
-      // => @media (min-width: 768px) { ... }
+      xl: { max: "1279px" },
+      // => @media (max-width: 1279px) { ... }
 
-      l: "1024px",
-      // => @media (min-width: 1024px) { ... }
+      lg: { max: "1023px" },
+      // => @media (max-width: 1023px) { ... }
 
-      xl: "1280px",
-      // => @media (min-width: 1280px) { ... }
+      md: { max: "767px" },
+      // => @media (max-width: 767px) { ... }
 
-      xxl: "1536px",
-      // => @media (min-width: 1536px) { ... }
+      sm: { max: "639px" },
+      // => @media (max-width: 639px) { ... }
     },
-    extend: {},
   },
   plugins: [require("tailwind-children")],
   darkMode: "class",
