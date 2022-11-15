@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from "react";
-import { exportedMethods, address } from "../utils/alchemy";
+import { exportedMethods, address } from "../utils/apiURL";
 import NFTCard from "../components/NFTCard";
 import chevronL from "../assets/chevron-l.png";
 import chevronR from "../assets/chevron-r.png";

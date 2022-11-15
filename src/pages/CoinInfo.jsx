@@ -1,14 +1,15 @@
 import { React, useState, useEffect } from "react";
-import { exportedMethods } from "../utils/alchemy.js";
+import { exportedMethods } from "../utils/apiURL";
 import axios from "axios";
 import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 
 function CoinInfo(props) {
   const id = props.id;
-  const url = exportedMethods.historicalChart(id, "usd", 7);
-  const [historicalData, setHistoricalData] = useState();
+  const [time, setTime] = useState(1);
+  const url = exportedMethods.historicalChart(id, "usd", time);
 
+  const [historicalData, setHistoricalData] = useState();
   const fetchPrice = async () => {
     try {
       const data = await axios.get(url);
@@ -20,7 +21,7 @@ function CoinInfo(props) {
 
   useEffect(() => {
     fetchPrice();
-  }, []);
+  }, [time]);
   const chartOptions = {
     responsive: true,
     elements: {
@@ -41,11 +42,12 @@ function CoinInfo(props) {
     scales: {
       x: {
         ticks: {
-          autoSkip: false,
           maxRotation: 0,
           minRotation: 0,
           align: "center",
-          maxTicksLimit: 0,
+          autoSkip: true,
+
+          maxTicksLimit: 7,
         },
         title: {
           color: "red",
@@ -70,8 +72,40 @@ function CoinInfo(props) {
       },
     },
   };
-
-  const result = [];
+  const displayTime = () => {
+    let result = [];
+    if (time === 1)
+      result = historicalData
+        ? historicalData.map((data) => {
+            let date = new Date(data[0]);
+            const convertTime = () => {
+              let hour = date.getHours();
+              let minutes = date.getMinutes();
+              let time = "";
+              let midday = "pm";
+              if (hour > 12) {
+                hour = hour - 12;
+                time =
+                  minutes < 10 ? hour + ":0" + minutes : hour + ":" + minutes;
+              } else {
+                midday = "am";
+                time =
+                  minutes < 10 ? hour + ":0" + minutes : hour + ":" + minutes;
+              }
+              return time + midday;
+            };
+            return convertTime();
+          })
+        : "";
+    else
+      result = historicalData
+        ? historicalData.map((data) => {
+            let date = new Date(data[0]);
+            return date.getMonth() + 1 + "/" + date.getDate();
+          })
+        : "";
+    return result;
+  };
 
   return (
     <>
@@ -81,14 +115,7 @@ function CoinInfo(props) {
             <Line
               datasetIdKey="id"
               data={{
-                labels: historicalData.map((data) => {
-                  let date = new Date(data[0]);
-                  if (!result.includes(date.getDate())) {
-                    result.push(date.getDate());
-                    if (date.getHours() === 0)
-                      return date.getMonth() + 1 + "/" + date.getDate();
-                  } else return "";
-                }),
+                labels: displayTime(),
                 datasets: [
                   {
                     data: historicalData.map((data) => {
@@ -103,6 +130,20 @@ function CoinInfo(props) {
           ) : (
             ""
           )}
+          <div className="m-6 child:rounded child:w-1/6 child:border flex justify-evenly text-black">
+            <button className="py-2" onClick={() => setTime(1)}>
+              1 Day
+            </button>
+            <button className="py-2" onClick={() => setTime(7)}>
+              1 Week
+            </button>
+            <button className="py-2" onClick={() => setTime(30)}>
+              1 Month
+            </button>
+            <button className="py-2" onClick={() => setTime(365)}>
+              1 Year
+            </button>
+          </div>
         </div>
         <div>
           <p>Coin Infor here</p>

@@ -24,6 +24,7 @@ function Market() {
   const filterCoin = coins.filter((coin) =>
     coin.name.toLowerCase().includes(searchVal.toLowerCase())
   );
+  console.log(coins);
   const displayMarket = () => {
     return (
       <div className="container mx-auto w-2/3">
