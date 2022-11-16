@@ -144,7 +144,7 @@ function CoinInfo(props) {
   };
   const displayButtons = () => {
     return (
-      <div className="w-1/3 m-6 child:cursor-pointer flex child:w-1/4 text-black  ">
+      <div className="w-1/3 child:cursor-pointer flex child:w-1/4 text-black  ">
         <p
           className={`py-2 ${
             selected === 0
@@ -238,7 +238,6 @@ function CoinInfo(props) {
             ""
           )}
           <div className="flex items-center justify-between">
-            {" "}
             {displayCoinInfor()}
             {displayButtons()}
           </div>
