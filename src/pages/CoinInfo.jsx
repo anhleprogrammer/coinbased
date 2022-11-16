@@ -5,15 +5,33 @@ import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 
 function CoinInfo(props) {
-  const id = props.id;
+  const [coin, setCoin] = useState(null);
+  const [selected, setSelected] = useState(0);
   const [time, setTime] = useState(1);
-  const url = exportedMethods.historicalChart(id, "usd", time);
-
   const [historicalData, setHistoricalData] = useState();
+  const id = props.id;
+  const convertValue = (val) => {
+    return val.toLocaleString(undefined, { minimumFractionDigits: 2 });
+  };
+  const formatCash = (n) => {
+    if (n >= 1e6 && n < 1e9) return +(n / 1e6).toFixed(2) + "M";
+    if (n >= 1e9 && n < 1e12) return +(n / 1e9).toFixed(2) + "B";
+    if (n >= 1e12) return +(n / 1e12).toFixed(2) + "T";
+  };
   const fetchPrice = async () => {
     try {
+      const url = exportedMethods.historicalChart(id, "usd", time);
       const data = await axios.get(url);
       setHistoricalData(data.data.prices);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const fetchCoinInfor = async () => {
+    try {
+      const url = exportedMethods.coinInfo(id);
+      const data = await axios.get(url);
+      setCoin(data.data);
     } catch (e) {
       console.log(e);
     }
@@ -21,7 +39,9 @@ function CoinInfo(props) {
 
   useEffect(() => {
     fetchPrice();
+    fetchCoinInfor();
   }, [time]);
+
   const chartOptions = {
     responsive: true,
     elements: {
@@ -29,6 +49,7 @@ function CoinInfo(props) {
         radius: 0,
       },
     },
+
     interaction: {
       intersect: false,
       mode: "nearest",
@@ -39,14 +60,25 @@ function CoinInfo(props) {
       display: true,
       text: "Chart.js Line Chart",
     },
+    plugins: {
+      legend: {
+        display: false,
+      },
+      chartAreaBorder: {
+        borderColor: "red",
+        borderWidth: 2,
+        borderDash: [5, 5],
+        borderDashOffset: 2,
+      },
+    },
+
     scales: {
       x: {
         ticks: {
           maxRotation: 0,
           minRotation: 0,
-          align: "center",
+          align: "inner",
           autoSkip: true,
-
           maxTicksLimit: 7,
         },
         title: {
@@ -63,11 +95,15 @@ function CoinInfo(props) {
           callback: (value) => {
             return "$" + value;
           },
+          maxTicksLimit: 7,
         },
         title: {
           color: "red",
           display: true,
           text: "Price",
+        },
+        grid: {
+          display: false,
         },
       },
     },
@@ -106,11 +142,107 @@ function CoinInfo(props) {
         : "";
     return result;
   };
+  const displayButtons = () => {
+    return (
+      <div className="w-1/3 m-6 child:cursor-pointer flex child:w-1/4 text-black  ">
+        <p
+          className={`py-2 ${
+            selected === 0
+              ? `text-indigo-500 underline underline-offset-4 text-white`
+              : ""
+          }`}
+          onClick={() => {
+            setSelected(0);
+            setTime(1);
+          }}
+        >
+          1D
+        </p>
+        <p
+          className={`py-2 ${
+            selected === 1
+              ? `text-indigo-500 underline underline-offset-4 text-white`
+              : ""
+          }`}
+          onClick={() => {
+            setSelected(1);
+            setTime(7);
+          }}
+        >
+          1W
+        </p>
+        <p
+          className={`py-2 ${
+            selected === 2
+              ? `text-indigo-500 underline underline-offset-4 text-white`
+              : ""
+          }`}
+          onClick={() => {
+            setSelected(2);
+            setTime(30);
+          }}
+        >
+          1M
+        </p>
+        <p
+          className={`py-2 ${
+            selected === 3
+              ? `text-indigo-500 underline underline-offset-4 text-white`
+              : ""
+          }`}
+          onClick={() => {
+            setSelected(3);
+            setTime(365);
+          }}
+        >
+          1Y
+        </p>
+      </div>
+    );
+  };
+  const displayCoinInfor = () => {
+    let priceChangePercentage = "price_change_percentage_24h";
+    if (selected === 1) priceChangePercentage = "price_change_percentage_7d";
+    else if (selected === 2)
+      priceChangePercentage = "price_change_percentage_30d";
+    else priceChangePercentage = "price_change_percentage_1y";
+    if (coin)
+      return (
+        <div className="flex gap-2 pl-20 text-2xl">
+          <p>${convertValue(coin.market_data.current_price.usd)}</p>
+          <p
+            className={
+              coin.market_data[`${priceChangePercentage}`] > 0
+                ? "text-green-500"
+                : "text-red-500"
+            }
+          >
+            ({coin.market_data[`${priceChangePercentage}`].toFixed(2)}%)
+          </p>
+        </div>
+      );
+  };
+  console.log(coin);
 
   return (
     <>
-      <div className="flex justify-around p-4">
-        <div className="w-9/12">
+      <div className="flex justify-around">
+        <div className="w-8/12">
+          {coin ? (
+            <div className="flex items-center gap-2 p-2 pl-20 text-3xl">
+              <img src={coin.image.small} />
+              <p>{coin.name}</p>
+              <p className="  text-gray-500">{coin.symbol.toUpperCase()}</p>
+            </div>
+          ) : (
+            ""
+          )}
+          <div className="flex items-center justify-between">
+            {" "}
+            {displayCoinInfor()}
+            {displayButtons()}
+          </div>
+
           {historicalData ? (
             <Line
               datasetIdKey="id"
@@ -130,24 +262,8 @@ function CoinInfo(props) {
           ) : (
             ""
           )}
-          <div className="m-6 child:rounded child:w-1/6 child:border flex justify-evenly text-black">
-            <button className="py-2" onClick={() => setTime(1)}>
-              1 Day
-            </button>
-            <button className="py-2" onClick={() => setTime(7)}>
-              1 Week
-            </button>
-            <button className="py-2" onClick={() => setTime(30)}>
-              1 Month
-            </button>
-            <button className="py-2" onClick={() => setTime(365)}>
-              1 Year
-            </button>
-          </div>
         </div>
-        <div>
-          <p>Coin Infor here</p>
-        </div>
+        <p>Call to action below here - Work in progress</p>
       </div>
     </>
   );

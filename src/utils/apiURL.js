@@ -32,8 +32,8 @@ const exportedMethods = {
   historicalChart(coinId, currency, days) {
     return `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=${currency}&days=${days}`;
   },
-  historicalChart2(coinId, currency, days) {
-    return `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=1`;
+  coinInfo(id) {
+    return `https://api.coingecko.com/api/v3/coins/${id}`;
   },
 };
 export { exportedMethods, address };
