@@ -3,6 +3,7 @@ import { exportedMethods } from "../utils/apiURL";
 import axios from "axios";
 import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
+import { GiBuyCard } from "react-icons/gi";
 
 function CoinInfo(props) {
   const [coin, setCoin] = useState(null);
@@ -42,6 +43,10 @@ function CoinInfo(props) {
     fetchCoinInfor();
   }, [time]);
 
+  Chart.defaults.font.size = 14;
+  Chart.defaults.backgroundColor = "red";
+  Chart.defaults.borderColor = "#6366f1";
+  Chart.defaults.color = "white";
   const chartOptions = {
     responsive: true,
     elements: {
@@ -60,6 +65,7 @@ function CoinInfo(props) {
       display: true,
       text: "Chart.js Line Chart",
     },
+
     plugins: {
       legend: {
         display: false,
@@ -81,11 +87,7 @@ function CoinInfo(props) {
           autoSkip: true,
           maxTicksLimit: 7,
         },
-        title: {
-          color: "red",
-          display: true,
-          text: "Time",
-        },
+
         grid: {
           display: false,
         },
@@ -95,13 +97,9 @@ function CoinInfo(props) {
           callback: (value) => {
             return "$" + value;
           },
-          maxTicksLimit: 7,
+          maxTicksLimit: 5,
         },
-        title: {
-          color: "red",
-          display: true,
-          text: "Price",
-        },
+
         grid: {
           display: false,
         },
@@ -144,7 +142,7 @@ function CoinInfo(props) {
   };
   const displayButtons = () => {
     return (
-      <div className="w-1/3 child:cursor-pointer flex child:w-1/4 text-black  ">
+      <div className="w-1/3 child:cursor-pointer flex child:w-1/4   ">
         <p
           className={`py-2 ${
             selected === 0
@@ -222,47 +220,67 @@ function CoinInfo(props) {
         </div>
       );
   };
-  console.log(coin);
-
+  const displayCallToAction = () => {
+    return (
+      <div className="w-3/12">
+        <img className="w-full" src="/cta.png" />
+        <div className="w-11/12 flex flex-col gap-4 m-auto">
+          <p className="text-2xl">Trade {coin && coin.name} today</p>
+          <p className="text-slate-500">
+            Create account with Coinbased to buy and sell {coin && coin.name} on
+            the most amazing crypto exchange
+          </p>
+          <button className="bg-indigo-500 hover:bg-indigo-700 text-white border-2  border-indigo-500 hover:border-indigo-700  py-2 rounded-full">
+            Buy {coin && coin.name}
+          </button>
+        </div>{" "}
+      </div>
+    );
+  };
+  const displayCoinDescription = () => {
+    return (
+      <div className="w-9/12">
+        <p>Market Stats - Work in progress</p>
+      </div>
+    );
+  };
   return (
     <>
-      <div className="flex justify-around">
-        <div className="w-8/12">
-          {coin ? (
-            <div className="flex items-center gap-2 p-2 pl-20 text-3xl">
-              <img src={coin.image.small} />
-              <p>{coin.name}</p>
-              <p className="  text-gray-500">{coin.symbol.toUpperCase()}</p>
-            </div>
-          ) : (
-            ""
-          )}
-          <div className="flex items-center justify-between">
-            {displayCoinInfor()}
-            {displayButtons()}
+      <div className="justify-around w-screen bg-gray-900 h-screen text-white ">
+        {coin && (
+          <div className="flex items-center gap-2 p-2 pl-20 text-3xl">
+            <img src={coin.image.small} />
+            <p>{coin.name}</p>
+            <p className="  text-gray-400">{coin.symbol.toUpperCase()}</p>
           </div>
-
-          {historicalData ? (
-            <Line
-              datasetIdKey="id"
-              data={{
-                labels: displayTime(),
-                datasets: [
-                  {
-                    data: historicalData.map((data) => {
-                      return data[1];
-                    }),
-                    label: `Price `,
-                  },
-                ],
-              }}
-              options={chartOptions}
-            />
-          ) : (
-            ""
-          )}
+        )}
+        <div className="flex p-8">
+          <div className="w-9/12">
+            <div className="flex items-center justify-between">
+              {displayCoinInfor()}
+              {displayButtons()}
+            </div>
+            {historicalData && (
+              <Line
+                datasetIdKey="id"
+                data={{
+                  labels: displayTime(),
+                  datasets: [
+                    {
+                      data: historicalData.map((data) => {
+                        return data[1];
+                      }),
+                      label: `Price `,
+                    },
+                  ],
+                }}
+                options={chartOptions}
+              />
+            )}
+          </div>
+          {displayCallToAction()}
         </div>
-        <p>Call to action below here - Work in progress</p>
+        {displayCoinDescription()}
       </div>
     </>
   );

@@ -8,11 +8,16 @@ function Navbar(props) {
   const dark = props.dark === true ? "dark" : false;
   const location = useLocation();
   console.log(location.pathname);
-  if (location.pathname === "/" || location.pathname === "/nft") setDark(true);
+  if (
+    location.pathname === "/" ||
+    location.pathname === "/nft" ||
+    location.pathname.includes("/market/")
+  )
+    setDark(true);
   else setDark(false);
   return (
     <div className={dark}>
-      <div className="flex justify-center nav-bar p-2 border-b-slate-200 border-solid border bg-white dark:bg-black dark:border-none sticky top-0">
+      <div className="flex justify-center nav-bar p-2 border-b-slate-200 border-solid border bg-white dark:bg-gray-900 dark:border-b dark:border-slate-800 sticky top-0">
         <div className="nav-container flex items-center justify-between w-10/12 mx-auto py-2 sm:py-0 sm:mx-0 sm:w-full md:justify-around">
           <Link to="/" className="logo flex items-center gap-4 font-bold">
             <img className="logo-img w-12 " src={dark ? wlogo : logo} alt="" />

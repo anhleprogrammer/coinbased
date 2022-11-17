@@ -31,7 +31,6 @@ function NFT() {
     };
     data();
   }, []);
-  // console.log(nftCollection);
 
   const filterCollection = () => {
     return nftCollection && nftCollection[slide] ? nftCollection[slide] : null;
@@ -40,7 +39,7 @@ function NFT() {
   console.log(filterResult);
 
   return (
-    <div className="bg-black h-screen items-center">
+    <div className="bg-gray-900 h-screen items-center">
       <div className="flex justify-center">
         {" "}
         <p className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-800 text-5xl m-12">
