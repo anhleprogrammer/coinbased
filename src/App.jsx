@@ -18,7 +18,9 @@ function App() {
 
   return (
     <div className={`${dark} w-screen`}>
-      {location.pathname === "/market" || location.pathname === "/" ? (
+      {location.pathname === "/market" ||
+      location.pathname === "/" ||
+      location.pathname.includes("/market/") ? (
         <div className="bg-indigo-500 p-2 text-white justify-center flex dark:text-black">
           <p className="dark:text-black">
             Get up to $200 for getting started →

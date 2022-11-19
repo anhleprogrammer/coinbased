@@ -3,7 +3,7 @@ import { exportedMethods } from "../utils/apiURL";
 import axios from "axios";
 import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
-import { GiBuyCard } from "react-icons/gi";
+import parse from "html-react-parser";
 
 function CoinInfo(props) {
   const [coin, setCoin] = useState(null);
@@ -37,7 +37,11 @@ function CoinInfo(props) {
       console.log(e);
     }
   };
-
+  const move$ = (str) => {
+    str = str + "";
+    if (str.includes("-")) str = str.slice(1);
+    return Number(str);
+  };
   useEffect(() => {
     fetchPrice();
     fetchCoinInfor();
@@ -135,14 +139,18 @@ function CoinInfo(props) {
       result = historicalData
         ? historicalData.map((data) => {
             let date = new Date(data[0]);
-            return date.getMonth() + 1 + "/" + date.getDate();
+            return (
+              date.toLocaleString("default", { month: "short" }) +
+              " " +
+              date.getDate()
+            );
           })
         : "";
     return result;
   };
   const displayButtons = () => {
     return (
-      <div className="w-1/3 child:cursor-pointer flex child:w-1/4   ">
+      <div className="w-1/3 child:cursor-pointer flex child:w-1/5">
         <p
           className={`py-2 ${
             selected === 0
@@ -198,7 +206,7 @@ function CoinInfo(props) {
       </div>
     );
   };
-  const displayCoinInfor = () => {
+  const displayCoinPriceAndChange = () => {
     let priceChangePercentage = "price_change_percentage_24h";
     if (selected === 1) priceChangePercentage = "price_change_percentage_7d";
     else if (selected === 2)
@@ -206,7 +214,7 @@ function CoinInfo(props) {
     else priceChangePercentage = "price_change_percentage_1y";
     if (coin)
       return (
-        <div className="flex gap-2 pl-20 text-2xl">
+        <div className="flex gap-2 pl-6  text-2xl">
           <p>${convertValue(coin.market_data.current_price.usd)}</p>
           <p
             className={
@@ -239,49 +247,118 @@ function CoinInfo(props) {
   };
   const displayCoinDescription = () => {
     return (
-      <div className="w-9/12">
-        <p>Market Stats - Work in progress</p>
+      <div className="px-20 mb-4">
+        <div className="bg-indigo-500 p-8 rounded-2xl children-p:align-center">
+          <p className="text-2xl mb-4">Market Stats</p>
+          <div className="grid grid-cols-4 gap-2 text-white">
+            <div>
+              {" "}
+              <p>Total Market Cap</p>
+              <p className="text-gray-200">
+                ${formatCash(coin.market_data.market_cap.usd)}
+              </p>
+            </div>
+            <div>
+              {" "}
+              <p>Market Cap Rank</p>
+              <p className="text-gray-200">{coin.market_cap_rank}</p>
+            </div>
+            <div>
+              <p>Total Supply</p>
+              <p className="text-gray-200">
+                ${formatCash(coin.market_data.total_supply)}
+              </p>
+            </div>
+            <div>
+              <p>Total Volume</p>
+              <p className="text-gray-200">
+                ${formatCash(coin.market_data.total_volume.usd)}
+              </p>
+            </div>
+
+            <div>
+              <p>Low 24h</p>
+              <p className="text-gray-200">${coin.market_data.low_24h.usd}</p>
+            </div>
+            <div>
+              <p>High 24h</p>
+              <p className="text-gray-200">${coin.market_data.high_24h.usd}</p>
+            </div>
+            <div>
+              {" "}
+              <p>Circulating Supply</p>
+              <p className="text-gray-200">
+                ${formatCash(coin.market_data.circulating_supply)}
+              </p>
+            </div>
+
+            <div>
+              {" "}
+              <p>Price Change 24h</p>
+              <p className="text-gray-200">
+                {coin.market_data.price_change_24h < 0
+                  ? "-$" +
+                    convertValue(move$(coin.market_data.price_change_24h))
+                  : "$" + convertValue(coin.market_data.price_change_24h)}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="p-8 bg-indigo-500   rounded-2xl my-8">
+          {" "}
+          <p className="text-2xl mb-4 ">About {coin.name}</p>
+          <p className="text-gray-200">{parse(coin.description.en)}</p>
+        </div>
       </div>
     );
   };
+  const displayCoinInforHeader = () => {
+    return (
+      <div className="flex items-center p-2 text-3xl">
+        <img src={coin.image.small} />
+        <p>{coin.name}</p>
+        <p className="text-gray-400">{coin.symbol.toUpperCase()}</p>
+      </div>
+    );
+  };
+  console.log(coin && coin.market_data.price_change_24h);
   return (
     <>
-      <div className="justify-around w-screen bg-gray-900 h-screen text-white ">
-        {coin && (
-          <div className="flex items-center gap-2 p-2 pl-20 text-3xl">
-            <img src={coin.image.small} />
-            <p>{coin.name}</p>
-            <p className="  text-gray-400">{coin.symbol.toUpperCase()}</p>
-          </div>
-        )}
-        <div className="flex p-8">
-          <div className="w-9/12">
-            <div className="flex items-center justify-between">
-              {displayCoinInfor()}
-              {displayButtons()}
+      {coin && (
+        <div className="justify-around bg-gray-900 h-screen overflow-auto	 text-white ">
+          <div className="flex p-8">
+            <div className="w-9/12">
+              <div className="flex items-center justify-between px-4">
+                <div>
+                  {displayCoinInforHeader()}
+                  {displayCoinPriceAndChange()}
+                </div>
+
+                {displayButtons()}
+              </div>
+              {historicalData && (
+                <Line
+                  datasetIdKey="id"
+                  data={{
+                    labels: displayTime(),
+                    datasets: [
+                      {
+                        data: historicalData.map((data) => {
+                          return data[1];
+                        }),
+                        label: `Price `,
+                      },
+                    ],
+                  }}
+                  options={chartOptions}
+                />
+              )}
             </div>
-            {historicalData && (
-              <Line
-                datasetIdKey="id"
-                data={{
-                  labels: displayTime(),
-                  datasets: [
-                    {
-                      data: historicalData.map((data) => {
-                        return data[1];
-                      }),
-                      label: `Price `,
-                    },
-                  ],
-                }}
-                options={chartOptions}
-              />
-            )}
+            {displayCallToAction()}
           </div>
-          {displayCallToAction()}
+          {displayCoinDescription()}
         </div>
-        {displayCoinDescription()}
-      </div>
+      )}
     </>
   );
 }
