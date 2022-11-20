@@ -11,6 +11,11 @@ function CoinInfo(props) {
   const [time, setTime] = useState(1);
   const [historicalData, setHistoricalData] = useState();
   const id = props.id;
+  const [hoverPrice, setHoverPrice] = useState(0);
+  const [hoverPercentage, setPercentage] = useState(0);
+  let previousVal = historicalData ? historicalData[0][1] : 0;
+  let priceChangePercentage = "price_change_percentage_24h";
+
   const convertValue = (val) => {
     return val.toLocaleString(undefined, { minimumFractionDigits: 2 });
   };
@@ -79,6 +84,15 @@ function CoinInfo(props) {
         borderWidth: 2,
         borderDash: [5, 5],
         borderDashOffset: 2,
+      },
+      tooltip: {
+        callbacks: {
+          afterFooter: function (chart) {
+            let hoverP = chart[0].formattedValue.replace(",", "");
+            setHoverPrice(chart[0].formattedValue);
+            setPercentage(((hoverP - previousVal) / previousVal) * 100);
+          },
+        },
       },
     },
 
@@ -160,6 +174,8 @@ function CoinInfo(props) {
           onClick={() => {
             setSelected(0);
             setTime(1);
+            setHoverPrice(convertValue(coin.market_data.current_price.usd));
+            setPercentage(coin.market_data[`${priceChangePercentage}`]);
           }}
         >
           1D
@@ -173,6 +189,8 @@ function CoinInfo(props) {
           onClick={() => {
             setSelected(1);
             setTime(7);
+            setHoverPrice(convertValue(coin.market_data.current_price.usd));
+            setPercentage(coin.market_data[`${priceChangePercentage}`]);
           }}
         >
           1W
@@ -186,6 +204,8 @@ function CoinInfo(props) {
           onClick={() => {
             setSelected(2);
             setTime(30);
+            setHoverPrice(convertValue(coin.market_data.current_price.usd));
+            setPercentage(coin.market_data[`${priceChangePercentage}`]);
           }}
         >
           1M
@@ -199,6 +219,8 @@ function CoinInfo(props) {
           onClick={() => {
             setSelected(3);
             setTime(365);
+            setHoverPrice(convertValue(coin.market_data.current_price.usd));
+            setPercentage(coin.market_data[`${priceChangePercentage}`]);
           }}
         >
           1Y
@@ -207,15 +229,20 @@ function CoinInfo(props) {
     );
   };
   const displayCoinPriceAndChange = () => {
-    let priceChangePercentage = "price_change_percentage_24h";
     if (selected === 1) priceChangePercentage = "price_change_percentage_7d";
     else if (selected === 2)
       priceChangePercentage = "price_change_percentage_30d";
     else priceChangePercentage = "price_change_percentage_1y";
     if (coin)
       return (
-        <div className="flex gap-2 pl-6  text-2xl">
-          <p>${convertValue(coin.market_data.current_price.usd)}</p>
+        <div className="flex gap-2 pl-6 text-2xl">
+          <p>
+            $
+            {hoverPrice !== 0
+              ? hoverPrice
+              : convertValue(coin.market_data.current_price.usd)}
+          </p>
+
           <p
             className={
               coin.market_data[`${priceChangePercentage}`] > 0
@@ -223,7 +250,11 @@ function CoinInfo(props) {
                 : "text-red-500"
             }
           >
-            ({coin.market_data[`${priceChangePercentage}`].toFixed(2)}%)
+            (
+            {hoverPercentage !== 0
+              ? hoverPercentage.toFixed(2)
+              : coin.market_data[`${priceChangePercentage}`].toFixed(2)}
+            %)
           </p>
         </div>
       );
@@ -314,14 +345,13 @@ function CoinInfo(props) {
   };
   const displayCoinInforHeader = () => {
     return (
-      <div className="flex items-center p-2 text-3xl">
+      <div className="flex items-center p-2 text-3xl gap-4">
         <img src={coin.image.small} />
         <p>{coin.name}</p>
         <p className="text-gray-400">{coin.symbol.toUpperCase()}</p>
       </div>
     );
   };
-  console.log(coin && coin.market_data.price_change_24h);
   return (
     <>
       {coin && (
