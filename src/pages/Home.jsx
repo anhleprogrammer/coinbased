@@ -3,9 +3,6 @@ import video from "../assets/video.mp4";
 function Home() {
   return (
     <div className="flex items-center home-container text-white">
-      {/* <video className="w-screen" loop autoPlay muted playsInline>
-        <source className="w-fit h-fit" src={video} type="video/mp4" />
-      </video> */}
       <div
         dangerouslySetInnerHTML={{
           __html: `

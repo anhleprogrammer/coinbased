@@ -7,15 +7,15 @@ import parse from "html-react-parser";
 
 function CoinInfo(props) {
   const [coin, setCoin] = useState(null);
-  const [selected, setSelected] = useState(0);
   const [time, setTime] = useState(1);
   const [historicalData, setHistoricalData] = useState();
   const id = props.id;
   const [hoverPrice, setHoverPrice] = useState(0);
   const [hoverPercentage, setPercentage] = useState(0);
   let previousVal = historicalData ? historicalData[0][1] : 0;
-  let priceChangePercentage = "price_change_percentage_24h";
-
+  const [priceChangePercentage, setPriceChangePercentage] = useState(
+    "price_change_percentage_24h"
+  );
   const convertValue = (val) => {
     return val.toLocaleString(undefined, { minimumFractionDigits: 2 });
   };
@@ -164,63 +164,63 @@ function CoinInfo(props) {
   };
   const displayButtons = () => {
     return (
-      <div className="w-1/3 child:cursor-pointer flex child:w-1/5">
+      <div className="w-1/3 child:cursor-pointer flex child:w-1/5 lg:w-full">
         <p
           className={`py-2 ${
-            selected === 0
+            priceChangePercentage === "price_change_percentage_24h"
               ? `text-indigo-500 underline underline-offset-4 text-white`
               : ""
           }`}
           onClick={() => {
-            setSelected(0);
+            setPriceChangePercentage("price_change_percentage_24h");
             setTime(1);
             setHoverPrice(convertValue(coin.market_data.current_price.usd));
-            setPercentage(coin.market_data[`${priceChangePercentage}`]);
+            setPercentage(coin.market_data["price_change_percentage_24h"]);
           }}
         >
           1D
         </p>
         <p
           className={`py-2 ${
-            selected === 1
+            priceChangePercentage === "price_change_percentage_7d"
               ? `text-indigo-500 underline underline-offset-4 text-white`
               : ""
           }`}
           onClick={() => {
-            setSelected(1);
+            setPriceChangePercentage("price_change_percentage_7d");
             setTime(7);
             setHoverPrice(convertValue(coin.market_data.current_price.usd));
-            setPercentage(coin.market_data[`${priceChangePercentage}`]);
+            setPercentage(coin.market_data["price_change_percentage_7d"]);
           }}
         >
           1W
         </p>
         <p
           className={`py-2 ${
-            selected === 2
+            priceChangePercentage === "price_change_percentage_30d"
               ? `text-indigo-500 underline underline-offset-4 text-white`
               : ""
           }`}
           onClick={() => {
-            setSelected(2);
+            setPriceChangePercentage("price_change_percentage_30d");
             setTime(30);
             setHoverPrice(convertValue(coin.market_data.current_price.usd));
-            setPercentage(coin.market_data[`${priceChangePercentage}`]);
+            setPercentage(coin.market_data["price_change_percentage_30d"]);
           }}
         >
           1M
         </p>
         <p
           className={`py-2 ${
-            selected === 3
+            priceChangePercentage === "price_change_percentage_1y"
               ? `text-indigo-500 underline underline-offset-4 text-white`
               : ""
           }`}
           onClick={() => {
-            setSelected(3);
+            setPriceChangePercentage("price_change_percentage_1y");
             setTime(365);
             setHoverPrice(convertValue(coin.market_data.current_price.usd));
-            setPercentage(coin.market_data[`${priceChangePercentage}`]);
+            setPercentage(coin.market_data["price_change_percentage_1y"]);
           }}
         >
           1Y
@@ -228,14 +228,13 @@ function CoinInfo(props) {
       </div>
     );
   };
+  console.log(hoverPercentage);
   const displayCoinPriceAndChange = () => {
-    if (selected === 1) priceChangePercentage = "price_change_percentage_7d";
-    else if (selected === 2)
-      priceChangePercentage = "price_change_percentage_30d";
-    else priceChangePercentage = "price_change_percentage_1y";
+    console.log(time, priceChangePercentage);
+
     if (coin)
       return (
-        <div className="flex gap-2 pl-6 text-2xl">
+        <div className="flex gap-2 pl-6 text-2xl lg:pl-2 lg:text-xl">
           <p>
             $
             {hoverPrice !== 0
@@ -254,6 +253,7 @@ function CoinInfo(props) {
             {hoverPercentage !== 0
               ? hoverPercentage.toFixed(2)
               : coin.market_data[`${priceChangePercentage}`].toFixed(2)}
+            {/* {coin.market_data[`${priceChangePercentage}`].toFixed(2)} */}
             %)
           </p>
         </div>
@@ -261,7 +261,7 @@ function CoinInfo(props) {
   };
   const displayCallToAction = () => {
     return (
-      <div className="w-3/12">
+      <div className="w-3/12 lg:w-full">
         <img className="w-full" src="/cta.png" />
         <div className="w-11/12 flex flex-col gap-4 m-auto">
           <p className="text-2xl">Trade {coin && coin.name} today</p>
@@ -278,10 +278,10 @@ function CoinInfo(props) {
   };
   const displayCoinDescription = () => {
     return (
-      <div className="px-20 mb-4">
+      <div className="px-20 mb-4 lg:px-4">
         <div className="bg-indigo-500 p-8 rounded-2xl children-p:align-center">
           <p className="text-2xl mb-4">Market Stats</p>
-          <div className="grid grid-cols-4 gap-2 text-white">
+          <div className="grid grid-cols-4 gap-2 text-white lg:grid-cols-2 lg:gap-4">
             <div>
               {" "}
               <p>Total Market Cap</p>
@@ -355,10 +355,10 @@ function CoinInfo(props) {
   return (
     <>
       {coin && (
-        <div className="justify-around bg-gray-900 h-screen overflow-auto	 text-white ">
-          <div className="flex p-8">
+        <div className="justify-around bg-gray-900 overflow-auto	 text-white ">
+          <div className="flex p-8 lg:p-2 lg:flex-col">
             <div className="w-9/12">
-              <div className="flex items-center justify-between px-4">
+              <div className="flex items-center justify-between px-4 lg:flex-col">
                 <div>
                   {displayCoinInforHeader()}
                   {displayCoinPriceAndChange()}

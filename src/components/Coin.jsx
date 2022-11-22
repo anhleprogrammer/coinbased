@@ -34,11 +34,13 @@ function Coin(props) {
           <p className="text-slate-500 ">{coin.symbol.toUpperCase()}</p>
         </div>
       </div>
-      <div className="right-values flex items-center justify-center w-4/5 child:w-1/5">
+      <div className="right-values flex items-center justify-center w-4/5 child:w-1/5 lg:w-1/2">
         <p className="coin-price ">${convertValue(coin.current_price)}</p>
         <p
           className={
-            coin.price_change_24h > 0 ? "text-green-500" : "text-red-500"
+            coin.price_change_24h > 0
+              ? "text-green-500 lg:hidden"
+              : "text-red-500 lg:hidden"
           }
         >
           {coin.price_change_24h < 0
@@ -48,15 +50,14 @@ function Coin(props) {
         <p
           className={
             coin.price_change_percentage_24h > 0
-              ? "text-green-500"
-              : "text-red-500"
+              ? "text-green-500 lg:hidden"
+              : "text-red-500 lg:hidden"
           }
         >
           {coin.price_change_percentage_24h.toFixed(2)}%
         </p>
-        <p>${formatCash(coin.market_cap)}</p>
-        <p className="flex justify-center">
-          {" "}
+        <p className="lg:hidden">${formatCash(coin.market_cap)}</p>
+        <p className="flex justify-center lg:hidden">
           <button className=" bg-indigo-500 hover:bg-indigo-700 text-white py-2 px-4 rounded">
             Trade
           </button>

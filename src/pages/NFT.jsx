@@ -32,28 +32,32 @@ function NFT() {
     data();
   }, []);
 
-  const filterCollection = () => {
-    return nftCollection && nftCollection[slide] ? nftCollection[slide] : null;
-  };
-  const filterResult = filterCollection();
-  console.log(filterResult);
+  const filterCollection = () =>
+    nftCollection && nftCollection[slide] ? nftCollection[slide] : null;
 
   return (
     <div className="bg-gray-900 h-screen items-center">
       <div className="flex justify-center">
         {" "}
-        <p className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-800 text-5xl m-12">
+        <p className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-800 text-5xl m-12 lg:text-3xl">
           Explore, collect, and sell NFTs
         </p>
       </div>
       <div className="relative">
         <div className="flex gap-4 p-16 font-bold">
-          {filterResult
-            ? filterResult.map((nft) => {
+          {filterCollection()
+            ? filterCollection().map((nft) => {
                 return <NFTCard nft={nft} />;
               })
             : ""}
         </div>
+        {/* <div className="flex gap-4 p-16 font-bold lg:hidden">
+          {filterCollection()
+            ? filterCollection().map((nft) => {
+                return <NFTCard nft={nft} />;
+              })
+            : ""}
+        </div> */}
         <button className="absolute top-1/2 left-10 -translate-y-6">
           <img
             className="w-12 "

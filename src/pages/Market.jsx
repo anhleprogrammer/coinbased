@@ -26,16 +26,16 @@ function Market() {
   );
   const displayMarket = () => {
     return (
-      <div className="container mx-auto w-2/3">
-        <div className="search-container flex items-center justify-center m-12">
+      <div className="container mx-auto w-2/3 lg:w-full">
+        <div className="search-container flex items-center justify-center m-12 lg:m-6">
           <input
             onChange={(e) => setSearch(e.target.value)}
-            className="border-indigo-500 active:border-indigo-700 border-solid border-2 rounded w-1/4 p-2"
+            className="border-indigo-500 active:border-indigo-700 border-solid border-2 rounded w-1/4 p-2 lg:w-2/3"
             type="text"
             placeholder="Search"
           />
         </div>
-        <div className="flex justify-between text-slate-500 mb-2">
+        <div className="flex justify-between text-slate-500 mb-2 lg:hidden">
           <div className="left-label">
             <p>Name</p>
           </div>
