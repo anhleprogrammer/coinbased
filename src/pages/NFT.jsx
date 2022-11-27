@@ -4,9 +4,15 @@ import NFTCard from "../components/NFTCard";
 import chevronL from "../assets/chevron-l.png";
 import chevronR from "../assets/chevron-r.png";
 
+function getWindowSize() {
+  const { innerWidth, innerHeight } = window;
+  return { innerWidth, innerHeight };
+}
 function NFT() {
   const [nftCollection, setCollection] = useState([]);
   const [slide, setSlide] = useState(0);
+  const [windowSize, setWindowSize] = useState(getWindowSize());
+
   useEffect(() => {
     const data = async () => {
       const ape = await exportedMethods.getNFTData(address.ape);
@@ -23,6 +29,8 @@ function NFT() {
       const azuki = await exportedMethods.getNFTData(address.azuki);
 
       const shark = await exportedMethods.getNFTData(address.shark);
+
+      window.addEventListener("resize", setWindowSize(getWindowSize()));
 
       setCollection([
         [ape, doge, woman, doodle],
@@ -47,7 +55,7 @@ function NFT() {
         <div className="flex gap-4 p-16 font-bold">
           {filterCollection()
             ? filterCollection().map((nft) => {
-                return <NFTCard nft={nft} />;
+                return <NFTCard windowSize={windowSize} nft={nft} />;
               })
             : ""}
         </div>

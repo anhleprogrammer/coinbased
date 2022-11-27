@@ -5,6 +5,10 @@ import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import parse from "html-react-parser";
 
+function getWindowSize() {
+  const { innerWidth, innerHeight } = window;
+  return { innerWidth, innerHeight };
+}
 function CoinInfo(props) {
   const [coin, setCoin] = useState(null);
   const [time, setTime] = useState(1);
@@ -16,6 +20,8 @@ function CoinInfo(props) {
   const [priceChangePercentage, setPriceChangePercentage] = useState(
     "price_change_percentage_24h"
   );
+
+  const [windowSize, setWindowSize] = useState(getWindowSize());
   const convertValue = (val) => {
     return val.toLocaleString(undefined, { minimumFractionDigits: 2 });
   };
@@ -50,6 +56,7 @@ function CoinInfo(props) {
   useEffect(() => {
     fetchPrice();
     fetchCoinInfor();
+    window.addEventListener("resize", setWindowSize(getWindowSize()));
   }, [time]);
 
   Chart.defaults.font.size = 14;
@@ -100,7 +107,7 @@ function CoinInfo(props) {
       x: {
         ticks: {
           maxRotation: 0,
-          minRotation: 0,
+          minRotation: windowSize.innerWidth < 800 ? 45 : 0,
           align: "inner",
           autoSkip: true,
           maxTicksLimit: 7,
@@ -228,13 +235,10 @@ function CoinInfo(props) {
       </div>
     );
   };
-  console.log(hoverPercentage);
   const displayCoinPriceAndChange = () => {
-    console.log(time, priceChangePercentage);
-
     if (coin)
       return (
-        <div className="flex gap-2 pl-6 text-2xl lg:pl-2 lg:text-xl">
+        <div className="flex gap-2 pl-6 text-2xl lg:pl-2 lg:text-xl lg:pl-0">
           <p>
             $
             {hoverPrice !== 0
@@ -253,7 +257,6 @@ function CoinInfo(props) {
             {hoverPercentage !== 0
               ? hoverPercentage.toFixed(2)
               : coin.market_data[`${priceChangePercentage}`].toFixed(2)}
-            {/* {coin.market_data[`${priceChangePercentage}`].toFixed(2)} */}
             %)
           </p>
         </div>
@@ -261,7 +264,7 @@ function CoinInfo(props) {
   };
   const displayCallToAction = () => {
     return (
-      <div className="w-3/12 lg:w-full">
+      <div className="w-3/12 lg:w-full lg:my-8">
         <img className="w-full" src="/cta.png" />
         <div className="w-11/12 flex flex-col gap-4 m-auto">
           <p className="text-2xl">Trade {coin && coin.name} today</p>
@@ -345,7 +348,7 @@ function CoinInfo(props) {
   };
   const displayCoinInforHeader = () => {
     return (
-      <div className="flex items-center p-2 text-3xl gap-4">
+      <div className="flex items-center p-2 text-3xl gap-4 lg:px-0">
         <img src={coin.image.small} />
         <p>{coin.name}</p>
         <p className="text-gray-400">{coin.symbol.toUpperCase()}</p>
@@ -355,10 +358,10 @@ function CoinInfo(props) {
   return (
     <>
       {coin && (
-        <div className="justify-around bg-gray-900 overflow-auto	 text-white ">
+        <div className="justify-around bg-gray-900 overflow-auto text-white">
           <div className="flex p-8 lg:p-2 lg:flex-col">
             <div className="w-9/12">
-              <div className="flex items-center justify-between px-4 lg:flex-col">
+              <div className="flex items-center justify-between px-4 lg:flex-col lg:items-baseline lg:p-2">
                 <div>
                   {displayCoinInforHeader()}
                   {displayCoinPriceAndChange()}
@@ -366,23 +369,26 @@ function CoinInfo(props) {
 
                 {displayButtons()}
               </div>
-              {historicalData && (
-                <Line
-                  datasetIdKey="id"
-                  data={{
-                    labels: displayTime(),
-                    datasets: [
-                      {
-                        data: historicalData.map((data) => {
-                          return data[1];
-                        }),
-                        label: `Price `,
-                      },
-                    ],
-                  }}
-                  options={chartOptions}
-                />
-              )}
+              <div className="lg:w-screen">
+                {" "}
+                {historicalData && (
+                  <Line
+                    datasetIdKey="id"
+                    data={{
+                      labels: displayTime(),
+                      datasets: [
+                        {
+                          data: historicalData.map((data) => {
+                            return data[1];
+                          }),
+                          label: `Price `,
+                        },
+                      ],
+                    }}
+                    options={chartOptions}
+                  />
+                )}
+              </div>
             </div>
             {displayCallToAction()}
           </div>
