@@ -120,7 +120,7 @@ function CoinInfo(props) {
       y: {
         ticks: {
           callback: (value) => {
-            return "$" + value;
+            return "$" + value.toFixed(2);
           },
           maxTicksLimit: 5,
         },
