@@ -36,10 +36,11 @@ function Footer() {
           </ul>
           <div className="w-1/3 text-slate-400 text-lg lg:w-full">
             <p>
-              In markets around the world, we work relentlessly to uncover and
-              capture new opportunities. Across a range of investment
-              strategies, we deploy capital with the goal of delivering market
-              leading investment results to our capital partners.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ac
+              ligula auctor, vestibulum est non, pellentesque ante. Aliquam
+              ultricies ante eros, eu blandit libero pellentesque pulvinar.
+              Mauris hendrerit, elit sit amet molestie fringilla, est velit
+              sagittis justo, eget maximus nulla risus nec sapien.
             </p>
           </div>
         </div>
