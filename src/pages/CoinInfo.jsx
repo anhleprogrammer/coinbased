@@ -56,7 +56,8 @@ function CoinInfo(props) {
   useEffect(() => {
     fetchPrice();
     fetchCoinInfor();
-    window.addEventListener("resize", setWindowSize(getWindowSize()));
+    if (windowSize.innerWidth < 800)
+      window.addEventListener("resize", setWindowSize(getWindowSize()));
   }, [time]);
 
   Chart.defaults.font.size = 14;

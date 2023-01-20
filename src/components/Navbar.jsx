@@ -23,7 +23,7 @@ function Navbar(props) {
             <img className="logo-img w-12 " src={dark ? wlogo : logo} alt="" />
             <p className="text-indigo-500 dark:text-white ">COINBASED</p>
           </Link>
-          <ul className="nav-middle  flex items-center child:text-indigo-500 justify-center sm:gap-0 lg:justify-evenly w-3/6 lg:gap-4 gap-20 dark:text-white">
+          <ul className="nav-middle  flex items-center justify-center sm:gap-0 lg:justify-evenly w-3/6 lg:gap-4 gap-20 dark:text-white text-indigo-500">
             <Link to="/market">Market</Link>
             <Link to="/nft">NFT</Link>
           </ul>
