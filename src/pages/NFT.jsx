@@ -19,7 +19,7 @@ function NFT() {
 
       const doge = await exportedMethods.getNFTData(address.doge);
 
-      const woman = await exportedMethods.getNFTData(address.woman);
+      const lilpud = await exportedMethods.getNFTData(address.lilpud);
 
       const punk = await exportedMethods.getNFTData(address.punk);
 
@@ -33,7 +33,7 @@ function NFT() {
       window.addEventListener("resize", setWindowSize(getWindowSize()));
 
       setCollection([
-        [ape, doge, woman, doodle],
+        [ape, doge, lilpud, doodle],
         [punk, rat, shark, azuki],
       ]);
     };
