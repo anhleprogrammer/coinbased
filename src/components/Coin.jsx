@@ -20,9 +20,7 @@ function Coin(props) {
   return (
     <div
       className={
-        coin.name !== "Dogecoin"
-          ? "dark coin-container hover:bg-slate-100 flex justify-between items-center border-solid border-b py-2 cursor-pointer"
-          : "coin-container rainbow hover:bg-red-100 flex justify-between items-center border-solid border-b py-2 cursor-pointer"
+        "dark coin-container hover:bg-slate-100 flex justify-between items-center border-solid border-b py-2 cursor-pointer"
       }
       onClick={() => navigate(`${coin.id.toLowerCase()}`)}
     >

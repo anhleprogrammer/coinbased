@@ -23,18 +23,18 @@ function NFT() {
 
       const punk = await exportedMethods.getNFTData(address.punk);
 
-      const rat = await exportedMethods.getNFTData(address.rat);
+      const mutant_ape = await exportedMethods.getNFTData(address.mutant_ape);
 
       const doodle = await exportedMethods.getNFTData(address.doodle);
       const azuki = await exportedMethods.getNFTData(address.azuki);
 
-      const shark = await exportedMethods.getNFTData(address.shark);
+      const dread = await exportedMethods.getNFTData(address.dread);
 
       window.addEventListener("resize", setWindowSize(getWindowSize()));
 
       setCollection([
         [ape, doge, lilpud, doodle],
-        [punk, rat, shark, azuki],
+        [punk, mutant_ape, dread, azuki],
       ]);
     };
     data();

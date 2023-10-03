@@ -1,28 +1,11 @@
 import React from "react";
-import video from "../assets/video.mp4";
 function Home() {
   return (
     <div className="flex items-center home-container text-white">
-      <div
-        dangerouslySetInnerHTML={{
-          __html: `
-        <video
-          loop
-          muted
-          autoplay
-          playsinline
-          src="${video}"
-          class="w-screen"
-        />,
-      `,
-        }}
-      ></div>
-      <div className="absolute lg:w-1/2 w-1/3 left-1/2 gap-4 flex flex-col justify-center items-start sm:top-auto sm:left-1/2 sm:-translate-x-1/2 ">
-        <p className="lg:text-xl text-6xl">The future of blockchain is here</p>
-        <p className="text-xl sm:text-sm sm:hidden">
-          Over 108 million people and businesses trust us to buy, sell, and
-          manage crypto.
-        </p>
+      <div className="bg-gray-900 h-screen w-screen"></div>
+      <div className="absolute lg:w-1/2 w-1/2 left-1/3 gap-4 flex flex-col justify-center items-start sm:top-auto sm:left-1/2 sm:-translate-x-1/2 ">
+        <p className="lg:text-xl text-6xl">Welcome to Coinbased</p>
+
         <div className="flex m:gap-12 gap-6 w-full sm:flex-col">
           <input
             className="s:w-20"
