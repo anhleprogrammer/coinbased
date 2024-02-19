@@ -1,4 +1,3 @@
-// const axios = require("axios");
 import axios from "axios";
 const apiKey = "3CiAM9p2CyxR4ph9rymuSC9BhO2ywyBx";
 const apiURL = `https://eth-mainnet.g.alchemy.com/nft/v2/${apiKey}/getContractMetadata`;

@@ -20,6 +20,7 @@ function Market() {
       .catch((error) => {
         console.error(error);
       });
+    console.log("dang cap");
   }, []);
   const filterCoin = coins.filter((coin) =>
     coin.name.toLowerCase().includes(searchVal.toLowerCase())

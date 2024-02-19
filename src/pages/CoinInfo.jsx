@@ -54,6 +54,7 @@ function CoinInfo(props) {
     return Number(str);
   };
   useEffect(() => {
+    console.log("kha banh");
     fetchPrice();
     fetchCoinInfor();
     if (windowSize.innerWidth < 800)
