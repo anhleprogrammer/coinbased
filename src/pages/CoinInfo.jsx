@@ -20,7 +20,7 @@ function CoinInfo(props) {
   const [priceChangePercentage, setPriceChangePercentage] = useState(
     "price_change_percentage_24h"
   );
-
+  console.log("test12");
   const [windowSize, setWindowSize] = useState(getWindowSize());
   const convertValue = (val) => {
     return val.toLocaleString(undefined, { minimumFractionDigits: 2 });
@@ -58,7 +58,7 @@ function CoinInfo(props) {
     fetchCoinInfor();
     if (windowSize.innerWidth < 800)
       window.addEventListener("resize", setWindowSize(getWindowSize()));
-  }, [time]);
+  }, []);
 
   Chart.defaults.font.size = 14;
   Chart.defaults.backgroundColor = "red";

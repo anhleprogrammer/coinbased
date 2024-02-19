@@ -11,7 +11,6 @@ import Home from "./pages/Home";
 import Market from "./pages/Market";
 import Footer from "./components/Footer";
 
-import NFT from "./pages/NFT";
 import CoinInfo from "./pages/CoinInfo";
 
 function App() {
@@ -37,7 +36,6 @@ function App() {
         <Route path="/market" element={<Market />}>
           <Route path=":id" element={<CoinInfo />} />
         </Route>
-        <Route path="/nft" element={<NFT />} />
       </Routes>
       <Footer />
     </div>
