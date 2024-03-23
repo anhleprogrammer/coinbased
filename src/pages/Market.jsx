@@ -9,22 +9,26 @@ const coinUrl =
 
 function Market() {
   let { id } = useParams();
-  const [coins, setCoin] = useState([]);
+  const [coins, setCoin] = useState(null);
   const [searchVal, setSearch] = useState("");
   useEffect(() => {
-    axios
-      .get(coinUrl)
-      .then((res) => {
-        setCoin(res.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    if (coins === undefined)
+      axios
+        .get(coinUrl)
+        .then((res) => {
+          setCoin(res.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     console.log("dang cap");
   }, []);
-  const filterCoin = coins.filter((coin) =>
-    coin.name.toLowerCase().includes(searchVal.toLowerCase())
-  );
+  const filterCoin =
+    coins !== null
+      ? coins.filter((coin) =>
+          coin.name.toLowerCase().includes(searchVal.toLowerCase())
+        )
+      : coins;
   const displayMarket = () => {
     return (
       <div className="container mx-auto w-2/3 lg:w-full">
@@ -48,9 +52,10 @@ function Market() {
             <p></p>
           </div>
         </div>
-        {filterCoin.map((coin, index) => {
-          return <Coin key={coin.id} coin={coin} index={index} />;
-        })}
+        {coins &&
+          filterCoin.map((coin, index) => {
+            return <Coin key={coin.id} coin={coin} index={index} />;
+          })}
       </div>
     );
   };

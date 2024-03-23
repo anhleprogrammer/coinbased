@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useMemo } from "react";
 import { exportedMethods } from "../utils/apiURL";
 import axios from "axios";
 import { Line } from "react-chartjs-2";
@@ -11,6 +11,7 @@ function getWindowSize() {
   const { innerWidth, innerHeight } = window;
   return { innerWidth, innerHeight };
 }
+
 function CoinInfo(props) {
   const [coin, setCoin] = useState(null);
   const [time, setTime] = useState(1);
@@ -22,7 +23,7 @@ function CoinInfo(props) {
   const [priceChangePercentage, setPriceChangePercentage] = useState(
     "price_change_percentage_24h"
   );
-  console.log(priceChangePercentage);
+
   const [windowSize, setWindowSize] = useState(getWindowSize());
   const convertValue = (val) => {
     return val.toLocaleString(undefined, { minimumFractionDigits: 2 });
@@ -32,20 +33,7 @@ function CoinInfo(props) {
     if (n >= 1e9 && n < 1e12) return +(n / 1e9).toFixed(2) + "B";
     if (n >= 1e12) return +(n / 1e12).toFixed(2) + "T";
   };
-  const fetchPrice = async () => {
-    try {
-      const url = exportedMethods.historicalChart(id, "usd", time);
-      if (priceCache[url]) {
-        setHistoricalData(priceCache[url]);
-      } else {
-        const data = await axios.get(url);
-        priceCache[url] = data.data.prices;
-        setHistoricalData(data.data.prices);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+
   const fetchCoinInfor = async () => {
     try {
       const url = exportedMethods.coinInfo(id);
@@ -60,7 +48,7 @@ function CoinInfo(props) {
       console.log(e);
     }
   };
-  console.log(coinCache, priceCache);
+
   const move$ = (str) => {
     str = str + "";
     if (str.includes("-")) str = str.slice(1);
@@ -68,7 +56,17 @@ function CoinInfo(props) {
   };
   useEffect(() => {
     console.log("kha banh");
+    const fetchPrice = async () => {
+      if (!historicalData) {
+        const url = exportedMethods.historicalChart(id, "usd", time);
+
+        const data = await axios.get(url);
+        setHistoricalData(data.data.prices);
+        console.log("no history", data.data);
+      }
+    };
     fetchPrice();
+    // cachedPrice();
     fetchCoinInfor();
     if (windowSize.innerWidth < 800)
       window.addEventListener("resize", setWindowSize(getWindowSize()));
