@@ -12,7 +12,7 @@ function Market() {
   const [coins, setCoin] = useState(null);
   const [searchVal, setSearch] = useState("");
   useEffect(() => {
-    if (coins === undefined)
+    if (!coins)
       axios
         .get(coinUrl)
         .then((res) => {
