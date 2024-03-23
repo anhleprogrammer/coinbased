@@ -2,17 +2,6 @@ import axios from "axios";
 const apiKey = "3CiAM9p2CyxR4ph9rymuSC9BhO2ywyBx";
 const apiURL = `https://eth-mainnet.g.alchemy.com/nft/v2/${apiKey}/getContractMetadata`;
 
-const address = {
-  ape: "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D",
-  mutant_ape: "0x60E4d786628Fea6478F785A6d7e704777c86a7c6",
-  doodle: "0x8a90CAb2b38dba80c64b7734e58Ee1dB38B8992e",
-  doge: "0x39ee2c7b3cb80254225884ca001F57118C8f21B6",
-  punk: "0x282BDD42f4eb70e7A9D9F40c8fEA0825B7f68C5D",
-  lilpud: "0x524cAB2ec69124574082676e6F654a18df49A048",
-  azuki: "0xED5AF388653567Af2F388E6224dC7C4b3241C544",
-  dread: "0x81Ae0bE3A8044772D04F32398bac1E1B4B215aa8",
-};
-
 const exportedMethods = {
   async getNFTData(address) {
     try {
@@ -35,4 +24,4 @@ const exportedMethods = {
     return `https://api.coingecko.com/api/v3/coins/${id}`;
   },
 };
-export { exportedMethods, address };
+export { exportedMethods };

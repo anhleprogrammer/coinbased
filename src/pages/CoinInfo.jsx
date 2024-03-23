@@ -5,6 +5,8 @@ import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import parse from "html-react-parser";
 
+const coinCache = {};
+const priceCache = {};
 function getWindowSize() {
   const { innerWidth, innerHeight } = window;
   return { innerWidth, innerHeight };
@@ -20,7 +22,7 @@ function CoinInfo(props) {
   const [priceChangePercentage, setPriceChangePercentage] = useState(
     "price_change_percentage_24h"
   );
-  console.log("test12");
+  console.log(priceChangePercentage);
   const [windowSize, setWindowSize] = useState(getWindowSize());
   const convertValue = (val) => {
     return val.toLocaleString(undefined, { minimumFractionDigits: 2 });
@@ -33,8 +35,13 @@ function CoinInfo(props) {
   const fetchPrice = async () => {
     try {
       const url = exportedMethods.historicalChart(id, "usd", time);
-      const data = await axios.get(url);
-      setHistoricalData(data.data.prices);
+      if (priceCache[url]) {
+        setHistoricalData(priceCache[url]);
+      } else {
+        const data = await axios.get(url);
+        priceCache[url] = data.data.prices;
+        setHistoricalData(data.data.prices);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -42,12 +49,18 @@ function CoinInfo(props) {
   const fetchCoinInfor = async () => {
     try {
       const url = exportedMethods.coinInfo(id);
-      const data = await axios.get(url);
-      setCoin(data.data);
+      if (coinCache[url]) {
+        setCoin(coinCache[url]);
+      } else {
+        const data = await axios.get(url);
+        coinCache[url] = data.data;
+        setCoin(data.data);
+      }
     } catch (e) {
       console.log(e);
     }
   };
+  console.log(coinCache, priceCache);
   const move$ = (str) => {
     str = str + "";
     if (str.includes("-")) str = str.slice(1);
@@ -59,7 +72,7 @@ function CoinInfo(props) {
     fetchCoinInfor();
     if (windowSize.innerWidth < 800)
       window.addEventListener("resize", setWindowSize(getWindowSize()));
-  }, []);
+  }, [time]);
 
   Chart.defaults.font.size = 14;
   Chart.defaults.backgroundColor = "red";
