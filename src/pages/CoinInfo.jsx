@@ -34,6 +34,21 @@ function CoinInfo(props) {
     if (n >= 1e12) return +(n / 1e12).toFixed(2) + "T";
   };
 
+  const fetchPrice = async () => {
+    try {
+      const url = exportedMethods.historicalChart(id, time);
+      if (priceCache[url]) {
+        setHistoricalData(priceCache[url]);
+      } else {
+        const data = await axios.get(url);
+        priceCache[url] = data.data.prices;
+        setHistoricalData(data.data.prices);
+        console.log(data.data.prices);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
   const fetchCoinInfor = async () => {
     try {
       const url = exportedMethods.coinInfo(id);
@@ -56,17 +71,15 @@ function CoinInfo(props) {
   };
   useEffect(() => {
     console.log("kha banh");
-    const fetchPrice = async () => {
-      if (!historicalData) {
-        const url = exportedMethods.historicalChart(id, "usd", time);
-
-        const data = await axios.get(url);
-        setHistoricalData(data.data.prices);
-        console.log("no history", data.data);
-      }
-    };
+    // const fetchPrice = async () => {
+    //   if (historicalData === undefined) {
+    //     const url = exportedMethods.historicalChart(id, "usd", time);
+    //     const data = await axios.get(url);
+    //     setHistoricalData(data.data.prices);
+    //     console.log("no history", data.data);
+    //   }
+    // };
     fetchPrice();
-    // cachedPrice();
     fetchCoinInfor();
     if (windowSize.innerWidth < 800)
       window.addEventListener("resize", setWindowSize(getWindowSize()));
