@@ -11,12 +11,11 @@ function Footer() {
       <div className="footer-body-container w-3/4 lg:w-full m-auto">
         <div className="footer-header">
           <img className="logo-img w-12 " alt="" />
-          <p className="px-2 font-extrabold text-3xl">COINBASED</p>
         </div>
         <div className="my-4 flex justify-between lg:flex-col">
           <ul className="grid grid-cols-3 child-li:p-2 grid-rows-4 lg:block font-bold">
             <li>
-              <a href="">ABOUT COINBASED</a>
+              <a href="">ABOUT</a>
             </li>
             <li>
               <a href="">CAREERS</a>

@@ -21,7 +21,7 @@ function Navbar(props) {
         <div className="nav-container flex items-center justify-between w-10/12 mx-auto py-2 sm:py-0 sm:mx-0 sm:w-full md:justify-around">
           <Link to="/" className="logo flex items-center gap-4 font-bold">
             <img className="logo-img w-12 " src={dark ? wlogo : logo} alt="" />
-            <p className="text-indigo-500 dark:text-white ">COINBASED</p>
+            <p className="text-indigo-500 dark:text-white "></p>
           </Link>
           <ul className="nav-middle  flex items-center justify-center sm:gap-0 lg:justify-evenly w-3/6 lg:gap-4 gap-20 dark:text-white text-indigo-500">
             <Link to="/market">Market</Link>
